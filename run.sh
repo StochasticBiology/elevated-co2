@@ -1,3 +1,5 @@
+chmod +x *.sh
+
 ./process-s1.sh
 R CMD BATCH rhizo-analysis.R
 
