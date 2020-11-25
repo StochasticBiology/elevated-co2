@@ -19,41 +19,34 @@ lines(treatment[,2], loesstreatment$fit, col="red")
 points(treatment[,2], treatment[,3], col="red") 
 dev.off()
 
-treatmentmean = rep(0,7)
-controlmean = rep(0,7)
-treatmentvar = rep(0,7)
-controlvar = rep(0,7)
-treatmentymean = rep(0,2)
-controlymean = rep(0,2)
-treatmentyvar = rep(0,2)
-controlyvar = rep(0,2)
-
-for(q in 1:8)
-{
-  treatmentq = treatment[(treatment[,2] == q),3]
-  controlq = control[(control[,2] == q),3]
-  treatmentmean[q] = mean(treatmentq)
-  treatmentvar[q] = var(treatmentq)
-  controlmean[q] = mean(controlq)
-  controlvar[q] = var(controlq)
-}
+treatmentay1 = c(sum(treatment[(treatment[,1]==1 & treatment[,2] <= 4),3]), sum(treatment[(treatment[,1]==4 & treatment[,2] <= 4),3]), sum(treatment[(treatment[,1]==6 & treatment[,2] <= 4),3]))
+treatmentay2 = c(sum(treatment[(treatment[,1]==1 & treatment[,2] > 4),3]), sum(treatment[(treatment[,1]==4 & treatment[,2] > 4),3]), sum(treatment[(treatment[,1]==6 & treatment[,2] > 4),3]))
+controlay1 = c(sum(control[(control[,1]==2 & control[,2] <= 4),3]), sum(control[(control[,1]==3 & control[,2] <= 4),3]), sum(control[(control[,1]==5 & control[,2] <= 4),3]))
+controlay2 = c(sum(control[(control[,1]==2 & control[,2] > 4),3]), sum(control[(control[,1]==3 & control[,2] > 4),3]), sum(control[(control[,1]==5 & control[,2] > 4),3]))
 
 treatment67 = treatment[(treatment[,2] == 6 | treatment[,2] == 7),3]
 control67 = control[(control[,2] == 6 | control[,2] == 7),3]
 treatment58 = treatment[(treatment[,2] == 5 | treatment[,2] == 8),3]
 control58 = control[(control[,2] == 5 | control[,2] == 8),3]
 
+mean(control67)
+sd(control67)
+mean(treatment67)
+sd(treatment67)
+
 wilcox.test(control67,treatment67)
 wilcox.test(control58,treatment58)
 
-treatmenty1 = sum(treatmentmean[1:4])
-treatmenty2 = sum(treatmentmean[5:8])
-controly1 = sum(controlmean[1:4])
-controly2 = sum(controlmean[5:8])
-treatmenty1sd = sqrt(sum(treatmentvar[1:4]))
-treatmenty2sd = sqrt(sum(treatmentvar[5:8]))
-controly1sd = sqrt(sum(controlvar[1:4]))
-controly2sd = sqrt(sum(controlvar[5:8]))
+treatmenty1 = mean(treatmentay1)
+treatmenty2 = mean(treatmentay2)
+controly1 = mean(controlay1)
+controly2 = mean(controlay2)
+treatmenty1sem = sd(treatmentay1)/sqrt(length(treatmentay1))
+treatmenty2sem = sd(treatmentay2)/sqrt(length(treatmentay2))
+controly1sem = sd(controlay1)/sqrt(length(controlay1))
+controly2sem = sd(controlay2)/sqrt(length(controlay2))
 
-output = rbind(c(1, controly1, controly1sd, treatmenty1, treatmenty1sd), c(2, controly2, controly2sd, treatmenty2, treatmenty2sd))
+output = rbind(c(1, controly1, controly1sem, treatmenty1, treatmenty1sem), c(2, controly2, controly2sem, treatmenty2, treatmenty2sem))
 write.table(output, file="production-y12.txt", row.names=F, col.names=F)
+
+output*83

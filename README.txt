@@ -1,10 +1,11 @@
-Ziegler et al., Elevated CO2 causes only transient carbon fertilisation of root biomass production in mature temperate deciduous forest
+Ziegler et al., Quantifying carbon fertilisation of root biomass production from elevated CO2 in mature temperate deciduous forest
 
 Raw data and code for analysis and visualisation (R, Mathematica, Gnuplot)
 
 (1) Supplementary_data_1-Root_lengths.csv
 (2) Supplementary_data_2-Soil_cores.csv
 (3) Supplementary_data_3-Production.csv
+(4) R*.csv
 
 (1) = process-s1.sh =>
 = Biomass_per_rhizo_control.txt
@@ -34,6 +35,10 @@ production.txt
 
 production.R
 XXX
+
+(4) = process-roots.sh =>
+
+roots.R
 
 
 = plot-npp.gnuplot
