@@ -43,7 +43,7 @@ treatmentw <- df[(df[,1]==1|df[,1]==4|df[,1]==6),]
 controlw[,3] = log(controlw[,3])
 treatmentw[,3] = log(treatmentw[,3])
 
-pdf("root-widths.pdf")
+pdf("root-widths.pdf", width=6, height=4)
 loesscontrolw = predict(loess(controlw[,3] ~ controlw[,2]), se=T)
 plot(controlw[,2]-2.5, controlw[,3], col="blue", xlab="Days from 11/4/2017", ylab = "log(Diameter / cm)", cex=0.25)
 polygon(c(controlw[,2], rev(controlw[,2])), c( loesscontrolw$fit - qt(0.975,loesscontrolw$df)*loesscontrolw$se, rev( loesscontrolw$fit + qt(0.975,loesscontrolw$df)*loesscontrolw$se)), col=rgb(0, 0, 1, 0.2), border=NA)
