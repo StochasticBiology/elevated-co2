@@ -9,8 +9,8 @@ There are 5 parts of the analysis, which run.sh serially executes. The correspon
 **1. Rhizotron data**
 
 * `process-s1.sh` -- pulls raw rhizotron data into different files for analysis
-* `rhizo-analysis.R` -- time series of rhizotron observations [2, 4]
-* `bid-analysis-wrapper.R` [wrapping `bid-lik.R`] -- birth-immigration-death model fitting of rhizotron data [2, S2]
+* `rhizo-analysis.R` -- time series of rhizotron observations [2]
+* `bid-analysis-wrapper.R` [wrapping `bid-lik.R`] -- birth-immigration-death model fitting of rhizotron data [2, S1.5]
 
 **2. Soil coring data**
 
@@ -20,7 +20,7 @@ There are 5 parts of the analysis, which run.sh serially executes. The correspon
 **3. Root physiology**
 
 * `process-roots.sh` -- pulls raw root physiology data into different files for analysis
-* `roots.R` -- analyses and plots root physiology data (lengths and widths, bulk and by horizon) [4, S3]
+* `roots.R` -- analyses and plots root physiology data (lengths and widths, bulk and by horizon) [4, S2]
 
 **4. Belowground productivity**
 
@@ -37,7 +37,7 @@ The specific output files that make up each final figure are
 * Fig 1 -- (illustration)
 * Fig 2 -- `output-data1.pdf` and `bid-analysis-y1.svg`
 * Fig 3 -- `output-weights2.pdf` and `output-weights1.pdf` 
-* Fig 4 -- `root-widths.pdf` and `roots-width-all.pdf` and `roots-width-horizon.pdf`
+* Fig 4 -- XXX and `roots-width-all.pdf` and `roots-width-horizon.pdf`
 * Fig 5 -- `production-ts.pdf` and `production-years.pdf` and `caladis-plots.svg`
 * Fig S1 -- (illustration)
 * Fig S2 -- `bid-analysis-y2.svg`
