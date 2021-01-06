@@ -24,19 +24,6 @@ treatmentay2 = c(sum(treatment[(treatment[,1]==1 & treatment[,2] > 4),3]), sum(t
 controlay1 = c(sum(control[(control[,1]==2 & control[,2] <= 4),3]), sum(control[(control[,1]==3 & control[,2] <= 4),3]), sum(control[(control[,1]==5 & control[,2] <= 4),3]))
 controlay2 = c(sum(control[(control[,1]==2 & control[,2] > 4),3]), sum(control[(control[,1]==3 & control[,2] > 4),3]), sum(control[(control[,1]==5 & control[,2] > 4),3]))
 
-treatment67 = treatment[(treatment[,2] == 6 | treatment[,2] == 7),3]
-control67 = control[(control[,2] == 6 | control[,2] == 7),3]
-treatment58 = treatment[(treatment[,2] == 5 | treatment[,2] == 8),3]
-control58 = control[(control[,2] == 5 | control[,2] == 8),3]
-
-mean(control67)
-sd(control67)
-mean(treatment67)
-sd(treatment67)
-
-wilcox.test(control67,treatment67)
-wilcox.test(control58,treatment58)
-
 treatmenty1 = mean(treatmentay1)
 treatmenty2 = mean(treatmentay2)
 controly1 = mean(controlay1)
@@ -50,3 +37,47 @@ output = rbind(c(1, controly1, controly1sem, treatmenty1, treatmenty1sem), c(2, 
 write.table(output, file="production-y12.txt", row.names=F, col.names=F)
 
 output*83
+
+####
+
+control.y1.y = control[control[,2] <= 4,3]
+control.y1.t = control[control[,2] <= 4,2]
+control.y1.t2 = control.y1.t^2
+control.y1.lm = lm(control.y1.y ~ control.y1.t2 + control.y1.t)
+
+control.y2.y = control[control[,2] > 4,3]
+control.y2.t = control[control[,2] > 4,2]
+control.y2.t2 = control.y2.t^2
+control.y2.lm = lm(control.y2.y ~ control.y2.t2 + control.y2.t)
+
+treatment.y1.y = treatment[treatment[,2] <= 4,3]
+treatment.y1.t = treatment[treatment[,2] <= 4,2]
+treatment.y1.t2 = treatment.y1.t^2
+treatment.y1.lm = lm(treatment.y1.y ~ treatment.y1.t2 + treatment.y1.t)
+
+treatment.y2.y = treatment[treatment[,2] > 4,3]
+treatment.y2.t = treatment[treatment[,2] > 4,2]
+treatment.y2.t2 = treatment.y2.t^2
+treatment.y2.lm = lm(treatment.y2.y ~ treatment.y2.t2 + treatment.y2.t)
+
+both.y1.y = c(control[control[,2] <= 4,3], treatment[treatment[,2] <= 4,3])
+both.y1.t = c(control[control[,2] <= 4,2], treatment[treatment[,2] <= 4,2])
+both.y1.t2 = both.y1.t^2
+both.y1.lm = lm(both.y1.y ~ both.y1.t2 + both.y1.t)
+
+both.y2.y = c(control[control[,2] > 4,3], treatment[treatment[,2] > 4,3])
+both.y2.t = c(control[control[,2] > 4,2], treatment[treatment[,2] > 4,2])
+both.y2.t2 = both.y2.t^2
+both.y2.lm = lm(both.y2.y ~ both.y2.t2 + both.y2.t)
+
+control.y1.lik = logLik(control.y1.lm)
+control.y2.lik = logLik(control.y2.lm)
+treatment.y1.lik = logLik(treatment.y1.lm)
+treatment.y2.lik = logLik(treatment.y2.lm)
+both.y1.lik = logLik(both.y1.lm)
+both.y2.lik = logLik(both.y2.lm)
+
+wilkes.y1 = 2*((control.y1.lik + treatment.y1.lik) - both.y1.lik)
+wilkes.y2 = 2*((control.y2.lik + treatment.y2.lik) - both.y2.lik)
+lrt.pvalue.y1 = 1-pchisq(wilkes.y1, 3)
+lrt.pvalue.y2 = 1-pchisq(wilkes.y2, 3)

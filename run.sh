@@ -5,8 +5,9 @@ R CMD BATCH rhizo-analysis.R
 
 ./process-s2.sh
 R CMD BATCH core-weights-analysis.R
-# run Mathematica notebook bid-analysis.nb, then:
-# gnuplot -e 'set term svg size 640,480; set output "bid-analysis.svg"; load "plotscr-bid.gnuplot"; exit;'
+R CMD BATCH bid-analysis-wrapper.R
+gnuplot -e 'set term svg size 640,480; set output "bid-analysis-y1.svg"; load "plotscr-bid-y1.gnuplot"; exit;'
+gnuplot -e 'set term svg size 640,480; set output "bid-analysis-y2.svg"; load "plotscr-bid-y2.gnuplot"; exit;'
 
 ./process-s3.sh
 R CMD BATCH production.R
