@@ -10,7 +10,7 @@ There are 5 parts of the analysis, which `run.sh` serially executes. The corresp
 
 * `process-s1.sh` -- pulls raw rhizotron data into different files for analysis
 * `rhizo-analysis.R` -- time series of rhizotron observations [2]
-* `bid-analysis-wrapper.R` [wrapping `bid-lik.R`] -- birth-immigration-death model fitting of rhizotron data [2, S1.5]
+* `bid-analysis-wrapper.R` [wrapping `bid-lik.R`] -- birth-immigration-death model fitting of rhizotron data [2, S2]
 
 **2. Soil coring data**
 
@@ -20,7 +20,7 @@ There are 5 parts of the analysis, which `run.sh` serially executes. The corresp
 **3. Root physiology**
 
 * `process-roots.sh` -- pulls raw root physiology data into different files for analysis
-* `roots.R` -- analyses and plots root physiology data (lengths and widths, bulk and by horizon) [4, S2]
+* `roots.R` -- analyses and plots root physiology data (lengths and widths, bulk and by horizon) [4, S3]
 
 **4. Belowground productivity**
 
