@@ -37,7 +37,7 @@ bid.lik <- function(theta, t, Y, output=1) {
 }
 
 # read data and cast into required forms
-df = read.table("~/Dropbox/Documents/2021_Projects/Clare/roots-bid-data.txt")
+df = read.table("roots-bid-data.txt")
 year.days = 365
 if(year == 1)
 {
@@ -45,6 +45,11 @@ if(year == 1)
   data.y1.eco2 = df[df[,1]=="eCO2" & df[,2]<year.days,]
   control.t = data.y1.control[,2]
   eco2.t = data.y1.eco2[,2]
+  # "icparam"s scale the initial parameter estimate
+  # these values were found through prelim study to give the best optimisation performance (though others perform very similarly)
+  control.icparam = 5
+  eco2.icparam = 1
+  both.icparam = 5
 }
 if(year == 2)
 {
@@ -52,6 +57,11 @@ if(year == 2)
   data.y1.eco2 = df[df[,1]=="eCO2" & df[,2]>=year.days,]
   control.t = data.y1.control[,2]-year.days
   eco2.t = data.y1.eco2[,2]-year.days
+  # "icparam"s scale the initial parameter estimate
+  # these values were found through prelim study to give the best optimisation performance (though others perform very similarly)
+  control.icparam = 1
+  eco2.icparam = 5
+  both.icparam = 5
 }
 control.Y = data.y1.control[,4]
 eco2.Y = data.y1.eco2[,4]
@@ -65,7 +75,7 @@ both.Y = c(control.Y, eco2.Y)
 par(mfrow=c(3,1))
 
 # minimise the negative log likelihood for the control data
-opt.control = optim(log(c(0.2, 0.25, 0.2, 10, 50)), bid.lik, t = control.t, Y = control.Y)
+opt.control = optim(log(c(0.2, 0.25, 0.2, 10, 50)*control.icparam), bid.lik, t = control.t, Y = control.Y)
 # get the mean and variances
 control.mu = bid.lik(opt.control$par, control.t, control.Y, output=2)
 control.sigma = bid.lik(opt.control$par, control.t, control.Y, output=3)
@@ -76,7 +86,7 @@ points(control.t, control.mu+control.sigma, col="lightblue")
 points(control.t, control.mu-control.sigma, col="lightblue")
 
 # as above for the eCO2
-opt.eco2 = optim(log(c(0.2, 0.25, 0.2, 10, 50)), bid.lik, t = eco2.t, Y = eco2.Y)
+opt.eco2 = optim(log(c(0.2, 0.25, 0.2, 10, 50)*eco2.icparam), bid.lik, t = eco2.t, Y = eco2.Y)
 eco2.mu = bid.lik(opt.eco2$par, eco2.t, eco2.Y, output=2)
 eco2.sigma = bid.lik(opt.eco2$par, eco2.t, eco2.Y, output=3)
 plot(eco2.t, eco2.Y, col="red")
@@ -85,7 +95,7 @@ points(eco2.t, eco2.mu+eco2.sigma, col="lightblue")
 points(eco2.t, eco2.mu-eco2.sigma, col="lightblue")
 
 # as above for the combined dataset
-opt.both = optim(log(c(0.2, 0.25, 0.2, 10, 50)), bid.lik, t = both.t, Y = both.Y)
+opt.both = optim(log(c(0.2, 0.25, 0.2, 10, 50)*both.icparam), bid.lik, t = both.t, Y = both.Y)
 both.mu = bid.lik(opt.both$par, both.t, both.Y, output=2)
 both.sigma = bid.lik(opt.both$par, both.t, both.Y, output=3)
 plot(both.t, both.Y, col="red")
@@ -136,13 +146,14 @@ for(i in 1:nboot)
     control.t.boot = control.t[refs]
     control.Y.boot = control.Y[refs]
     # optimise for this resampling
-    opt.control = optim(log(c(0.1, 0.15, 0.1, 10, 50)), bid.lik, t = control.t.boot, Y = control.Y.boot)
+    opt.control = optim(log(c(0.2, 0.25, 0.2, 10, 50)*control.icparam), bid.lik, t = control.t.boot, Y = control.Y.boot)
+
   
     # same for eCO2
     refs = sample(length(eco2.t), replace=T)
     eco2.t.boot = eco2.t[refs]
     eco2.Y.boot = eco2.Y[refs]
-    opt.eco2 = optim(log(c(0.1, 0.15, 0.1, 10, 50)), bid.lik, t = eco2.t.boot, Y = eco2.Y.boot)
+    opt.eco2 = optim(log(c(0.2, 0.25, 0.2, 10, 50)*eco2.icparam), bid.lik, t = eco2.t.boot, Y = eco2.Y.boot)
 
     if(year == 1) {
       if(exp(opt.control$par[1])-exp(opt.control$par[2]) > -0.1 & exp(opt.eco2$par[1])-exp(opt.eco2$par[2]) > -0.1 ) {
@@ -177,7 +188,7 @@ control.param = exp(control.boot.pars[,1])-exp(control.boot.pars[,2])
 eco2.param = exp(eco2.boot.pars[,1])-exp(eco2.boot.pars[,2])
 b = min(c(control.param, eco2.param))
 e = max(c(control.param, eco2.param))
-ax = seq(b, e, length.out=20)
+ax = seq(b, e, length.out=50)
 hg.control = hist(control.param, breaks=ax, plot=F)
 hg.eco2 = hist(eco2.param, breaks=ax, plot=F)
 plot(hg.eco2, col = rgb(1,0,0,alpha=0.5), main="(lambda-nu)")

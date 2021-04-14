@@ -1,3 +1,5 @@
+# read concatenated roots data by control/eCO2 and horizon
+
 controlA = read.table("control-A.csv", sep=",", comment.char="")
 controlB = read.table("control-B.csv", sep=",", comment.char="")
 controlO = read.table("control-O.csv", sep=",", comment.char="")
@@ -6,7 +8,7 @@ treatmentA = read.table("treatment-A.csv", sep=",", comment.char="")
 treatmentB = read.table("treatment-B.csv", sep=",", comment.char="")
 treatmentO = read.table("treatment-O.csv", sep=",", comment.char="")
 
-### lengths
+### boxplots for lengths by horizon and experiment
 
 pdf("roots-length-horizon.pdf")
 boxplot(log(controlO$V4), log(treatmentO$V4), log(controlA$V4), log(treatmentA$V4), log(controlB$V4), log(treatmentB$V4), col=c(rgb(0,0,1,0.5), rgb(1,0,0,0.5), rgb(0,0,1,0.5), rgb(1,0,0,0.5), rgb(0,0,1,0.5), rgb(1,0,0,0.5)), xaxt="n", ylab = "log(Length / cm)")
@@ -21,7 +23,7 @@ boxplot(log(controlall), log(treatmentall), col=c(rgb(0,0,1,0.5), rgb(1,0,0,0.5)
 axis(1, at = c(1, 2), labels=c("Control", "Treatment"))
 dev.off()
 
-### widths
+### boxplots for widths by horizon and experiment
 
 pdf("roots-width-horizon.pdf")
 boxplot(log(controlO$V9), log(treatmentO$V9), log(controlA$V9), log(treatmentA$V9), log(controlB$V9), log(treatmentB$V9), col=c(rgb(0,0,1,0.5), rgb(1,0,0,0.5), rgb(0,0,1,0.5), rgb(1,0,0,0.5), rgb(0,0,1,0.5), rgb(1,0,0,0.5)), xaxt="n", ylab = "log(Width / cm)")
