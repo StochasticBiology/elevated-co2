@@ -37,7 +37,7 @@ The specific output files that make up each final figure are
 * Fig 1 -- (illustration)
 * Fig 2 -- `output-data1.pdf` and `bid-analysis-y1.svg`
 * Fig 3 -- `output-weights2.pdf` and `output-weights1.pdf` 
-* Fig 4 -- XXX and `roots-width-all.pdf` and `roots-width-horizon.pdf`
+* Fig 4 -- `root-widths.pdf` and `roots-width-all.pdf` and `roots-width-horizon.pdf`
 * Fig 5 -- `production-ts.pdf` and `production-years.pdf` and `caladis-plots.svg`
 * Fig S1 -- (illustration)
 * Fig S2 -- `bid-analysis-y2.svg`
