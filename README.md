@@ -2,7 +2,7 @@
 
 Data analysis and modelling of root behaviour under elevated CO2
 
-The complete pipeline is run by executing `run.sh`. Raw data is in `Data/`. Output from Caladis is in `Caladis/`.
+The complete pipeline is run by executing `run.sh`. This should take perhaps a minute or two on a modern (2020) machine. Raw data is in `Data/`. Output from Caladis is in `Caladis/`.
 
 There are 5 parts of the analysis, which `run.sh` serially executes. The corresponding manuscript figures are given in square brackets.
 
