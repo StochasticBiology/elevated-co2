@@ -17,7 +17,8 @@ par(mfrow=c(2,1))
 ## first look at raw data
 # loess fit for control data
 loesscontrol = predict(loess(controly ~ controlx), se=T)
-plot(controlx-1.5, controly, col = "blue", xlab="Time / days", ylab = "log(Volume / mm3)", cex=0.5)
+plot(controlx-1.5, controly, col = "blue", xlab="Time / days", ylab = "Volume / mm³", cex=0.5, yaxt="n")
+axis(2, at = log(c(500, 50, 5, 0.5)), labels = c("500", "50", "5", "0.5"))
 polygon(c(controlx, rev(controlx)), c( loesscontrol$fit - qt(0.975,loesscontrol$df)*loesscontrol$se, rev( loesscontrol$fit + qt(0.975,loesscontrol$df)*loesscontrol$se)), col=rgb(0, 0, 1, 0.2), border=NA)
 lines(controlx, loesscontrol$fit, col="blue")
 points(controlx-1.5, controly, col = "blue", xlab="Time / days", ylab = "log(Volume / mm3)", cex=0.5)
@@ -76,13 +77,14 @@ treatmentw[,3] = log(treatmentw[,3])
 pdf("root-widths.pdf", width=6, height=4)
 
 # loess fits
-loesscontrolw = predict(loess(controlw[,3] ~ controlw[,2]), se=T)
-plot(controlw[,2]-2.5, controlw[,3], col="blue", xlab="Days from 11/4/2017", ylab = "log(Diameter / cm)", cex=0.25)
+#loesscontrolw = predict(loess(controlw[,3] ~ controlw[,2]), se=T)
+plot(controlw[,2]-2.5, controlw[,3], col="blue", xlab="Days from 11/4/2017", ylab = "Diameter / cm", cex=0.25, yaxt="n")
+axis(2, at = log(c(0.4, 0.04, 0.004)), labels = c("0.4", "0.04", "0.004"))
 polygon(c(controlw[,2], rev(controlw[,2])), c( loesscontrolw$fit - qt(0.975,loesscontrolw$df)*loesscontrolw$se, rev( loesscontrolw$fit + qt(0.975,loesscontrolw$df)*loesscontrolw$se)), col=rgb(0, 0, 1, 0.2), border=NA)
 lines(controlw[,2], loesscontrolw$fit, col="blue")
 #points(controlw[,2], controlw[,3], col="blue")
 
-loesstreatmentw = predict(loess(treatmentw[,3] ~ treatmentw[,2]), se=T)
+#loesstreatmentw = predict(loess(treatmentw[,3] ~ treatmentw[,2]), se=T)
 points(treatmentw[,2]+2.5, treatmentw[,3], col="red", cex=0.25)
 polygon(c(treatmentw[,2], rev(treatmentw[,2])), c( loesstreatmentw$fit - qt(0.975,loesstreatmentw$df)*loesstreatmentw$se, rev( loesstreatmentw$fit + qt(0.975,loesstreatmentw$df)*loesstreatmentw$se)), col=rgb(1, 0, 0, 0.2), border=NA)
 lines(treatmentw[,2], loesstreatmentw$fit, col="red")

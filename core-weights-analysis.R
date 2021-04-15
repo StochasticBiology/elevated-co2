@@ -18,54 +18,57 @@ treatment[,4] = log(treatment[,4])
 treatment[,5] = log(treatment[,5])
 
 # set up for plotting
-pdf("output-weights1.pdf", width=8, height=2, paper="special") 
+pdf("output-weights1.pdf", width=8, height=2.5, paper="special") 
 par(mfrow=c(1,3))
 
 # loess fit for control-live 
 loesscontrollive = predict(loess(control[,3] ~ control[,1]), se=T)
-plot(control[,1], control[,3], col="blue", xlab="Time / days", ylab = "log(Live Biomass / mg)")
+plot(control[,1], control[,3], col="blue", xlab="Time / days", ylab = "Live Biomass / g", yaxt="n", ylim=log(c(20, 50000)))
+axis(2, at=log(c(100, 1000, 10000)), label=c("0.1", "1", "10"))
 polygon(c(control[,1], rev(control[,1])), c( loesscontrollive$fit - qt(0.975,loesscontrollive$df)*loesscontrollive$se, rev( loesscontrollive$fit + qt(0.975,loesscontrollive$df)*loesscontrollive$se)), col=rgb(0, 0, 1, 0.2), border=NA)
 lines(control[,1], loesscontrollive$fit, col="blue")
-points(control[,1], control[,3], col="blue", xlab="Time / days", ylab = "log(Live Biomass / mg)")
+points(control[,1], control[,3], col="blue")
 
 # loess fit for eCO2-live
 loesstreatmentlive = predict(loess(treatment[,3] ~ treatment[,1]), se=T)
 polygon(c(treatment[,1], rev(treatment[,1])), c( loesstreatmentlive$fit - qt(0.975,loesstreatmentlive$df)*loesstreatmentlive$se, rev( loesstreatmentlive$fit + qt(0.975,loesstreatmentlive$df)*loesstreatmentlive$se)), col=rgb(1, 0, 0, 0.2), border=NA)
 lines(treatment[,1], loesstreatmentlive$fit, col="red")
-points(treatment[,1], treatment[,3], col="red", xlab="Time / days", ylab = "log(Live Biomass / mg)")
+points(treatment[,1], treatment[,3], col="red")
 
 # loess fit for control-dead
 loesscontroldead = predict(loess(control[,4] ~ control[,1]), se=T)
-plot(control[,1], control[,4], col="blue", xlab="Time / days", ylab = "log(Dead Biomass / mg)")
+plot(control[,1], control[,4], col="blue", xlab="Time / days", ylab = "Dead Biomass / g", yaxt="n", ylim=log(c(20, 50000)))
+axis(2, at=log(c(100, 1000, 10000)), label=c("0.1", "1", "10"))
 polygon(c(control[,1], rev(control[,1])), c( loesscontroldead$fit - qt(0.975,loesscontroldead$df)*loesscontroldead$se, rev( loesscontroldead$fit + qt(0.975,loesscontroldead$df)*loesscontroldead$se)), col=rgb(0, 0, 1, 0.2), border=NA)
 lines(control[,1], loesscontroldead$fit, col="blue")
-points(control[,1], control[,4], col="blue", xlab="Time / days", ylab = "log(Dead Biomass / mg)")
+points(control[,1], control[,4], col="blue")
 
 # loess fit for eCO2-dead
 loesstreatmentdead = predict(loess(treatment[,4] ~ treatment[,1]), se=T)
 polygon(c(treatment[,1], rev(treatment[,1])), c( loesstreatmentdead$fit - qt(0.975,loesstreatmentdead$df)*loesstreatmentdead$se, rev( loesstreatmentdead$fit + qt(0.975,loesstreatmentdead$df)*loesstreatmentdead$se)), col=rgb(1, 0, 0, 0.2), border=NA)
 lines(treatment[,1], loesstreatmentdead$fit, col="red")
-points(treatment[,1], treatment[,4], col="red", xlab="Time / days", ylab = "log(Dead Biomass / mg)")
+points(treatment[,1], treatment[,4], col="red")
 
 # loess fit for control-both
 loesscontroltotal = predict(loess(control[,5] ~ control[,1]), se=T)
-plot(control[,1], control[,5], col="blue", xlab="Time / days", ylab = "log(Total Biomass / mg)")
+plot(control[,1], control[,5], col="blue", xlab="Time / days", ylab = "Total Biomass / g", yaxt="n", ylim=log(c(20, 50000)))
+axis(2, at=log(c(100, 1000, 10000)), label=c("0.1", "1", "10"))
 polygon(c(control[,1], rev(control[,1])), c( loesscontroltotal$fit - qt(0.975,loesscontroltotal$df)*loesscontroltotal$se, rev( loesscontroltotal$fit + qt(0.975,loesscontroltotal$df)*loesscontroltotal$se)), col=rgb(0, 0, 1, 0.2), border=NA)
 lines(control[,1], loesscontroltotal$fit, col="blue")
-points(control[,1], control[,5], col="blue", xlab="Time / days", ylab = "log(Total Biomass / mg)")
+points(control[,1], control[,5], col="blue")
 
 # loess fit for eCO2-both
 loesstreatmenttotal = predict(loess(treatment[,5] ~ treatment[,1]), se=T)
 polygon(c(treatment[,1], rev(treatment[,1])), c( loesstreatmenttotal$fit - qt(0.975,loesstreatmenttotal$df)*loesstreatmenttotal$se, rev( loesstreatmenttotal$fit + qt(0.975,loesstreatmenttotal$df)*loesstreatmenttotal$se)), col=rgb(1, 0, 0, 0.2), border=NA)
 lines(treatment[,1], loesstreatmenttotal$fit, col="red")
-points(treatment[,1], treatment[,5], col="red", xlab="Time / days", ylab = "log(Total Biomass / mg)")
+points(treatment[,1], treatment[,5], col="red")
 
 dev.off()
 
 ############### now separate by horizon
 
 # prepare for plot
-pdf("output-weights2.pdf", width=8, height=4, paper="special") 
+pdf("output-weights2.pdf", width=8, height=4.5, paper="special") 
 par(mfrow=c(1,2))
 
 # read parsed data
@@ -129,14 +132,16 @@ treatmentdeada = alldeada[(alldeada$Array == 2 | alldeada$Array == 3 | alldeada$
 treatmentdeadb = alldeadb[(alldeadb$Array == 2 | alldeadb$Array == 3 | alldeadb$Array == 5),]
 
 # corresponding plots with horizontal offsets for clarity
-plot(controlliveo[,4]-30, log(controlliveo[,3]), col="red", ylim=c(0,10), pch = 2, xlab="Time / days", ylab = "log(Biomass / mg)", cex=0.5)
+plot(controlliveo[,4]-30, log(controlliveo[,3]), col="red", pch = 2, xlab="Time / days", ylab = "Biomass / g", cex=0.5, yaxt="n", ylim=log(c(1, 25000)))
+axis(2, at=log(c(10000, 1000, 100, 10, 1)), labels=c("10", "1", "0.1", "0.01", "0.001"))
 points(controllivea[,4]-20, log(controllivea[,3]), col="pink", pch = 1, cex=0.5)
 points(controlliveb[,4]-10, log(controlliveb[,3]), col="orange", pch=6, cex=0.5)
 points(controldeado[,4]+10, log(controldeado[,3]), col="blue", pch=2, cex=0.5)
 points(controldeada[,4]+20, log(controldeada[,3]), col="green", pch=1, cex=0.5)
 points(controldeadb[,4]+30, log(controldeadb[,3]), col="purple", pch=6, cex=0.5)
 
-plot(treatmentliveo[,4]-30, log(treatmentliveo[,3]), col="red", ylim=c(0,10), pch=2, xlab = "Time / days", ylab = "log(Biomass / mg)", cex=0.5)
+plot(treatmentliveo[,4]-30, log(treatmentliveo[,3]), col="red",  pch=2, xlab = "Time / days", ylab = "Biomass / g", cex=0.5, yaxt="n", ylim=log(c(1, 25000)))
+axis(2, at=log(c(10000, 1000, 100, 10, 1)), labels=c("10", "1", "0.1", "0.01", "0.001"))
 points(treatmentlivea[,4]-20, log(treatmentlivea[,3]), col="pink", pch=1, cex=0.5)
 points(treatmentliveb[,4]-10, log(treatmentliveb[,3]), col="orange", pch=6, cex=0.5)
 points(treatmentdeado[,4]+10, log(treatmentdeado[,3]), col="blue", pch=2, cex=0.5)
