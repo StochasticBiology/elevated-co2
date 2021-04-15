@@ -23,7 +23,7 @@ R CMD BATCH core-weights-analysis.R
 # analysis of production estimate time series
 R CMD BATCH production.R
 # produce figure
-gnuplot -e 'set term svg size 320,320; set output "production-years.svg"; load "production-years.gnuplot"; exit;'
+gnuplot -e 'set term svg size 480,320; set output "production-years.svg"; load "production-years.gnuplot"; exit;'
 
 # root length and width data
 ./process-roots.sh
