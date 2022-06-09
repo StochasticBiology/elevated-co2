@@ -24,6 +24,16 @@ axis(1, at = c(1, 2), labels=c("Control", "Treatment"))
 axis(2, at = log(c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5)), labels=c("0.01", "0.02", "0.05", "0.1", "0.2", "0.5", "1", "2", "5"))
 dev.off()
 
+ssize = c(100, 200, 300, 400, 500, 1000)
+for(thiss in ssize) {
+  p = c()
+  for(i in 1:100) {
+    p = c(p, wilcox.test(sample(controlall, thiss), sample(treatmentall, thiss))$p.value)
+  }
+  print(c(thiss, mean(p), sd(p)))
+}
+
+
 ### boxplots for widths by horizon and experiment
 
 pdf("roots-width-horizon.pdf")
@@ -39,3 +49,12 @@ boxplot(log(controlall), log(treatmentall), col=c(rgb(0,0,1,0.5), rgb(1,0,0,0.5)
 axis(1, at = c(1, 2), labels=c("Control", "Treatment"))
 axis(2, at = log(c(0.01, 0.02, 0.05, 0.1, 0.2, 0.5)), labels=c("0.01", "0.02", "0.05", "0.1", "0.2", "0.5"))
 dev.off()
+
+ssize = c(100, 200, 300, 400, 500, 1000)
+for(thiss in ssize) {
+  p = c()
+  for(i in 1:100) {
+    p = c(p, wilcox.test(sample(controlall, thiss), sample(treatmentall, thiss))$p.value)
+  }
+  print(c(thiss, mean(p), sd(p)))
+}
